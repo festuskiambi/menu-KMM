@@ -1,7 +1,11 @@
+import Application.minSdk
+
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
-    id("com.android.library")
+    kotlin(KotlinPlugins.multiplatform)
+    kotlin(KotlinPlugins.cocoapods)
+    kotlin(KotlinPlugins.serialization) version Kotlin.version
+    id(Plugins.androidLibrary)
+//    id(Plugins.sqlDelight)
 }
 
 version = "1.0"
@@ -21,9 +25,13 @@ kotlin {
             baseName = "shared"
         }
     }
-    
+
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation(Kotlinx.datetime)
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -53,10 +61,23 @@ kotlin {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Application.compileSdk
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 21
-        targetSdk = 32
+        minSdk = Application.minSdk
+        targetSdk =Application.targetSdk
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+//    configurations {
+//        create("androidTestApi")
+//        create("androidTestDebugApi")
+//        create("androidTestReleaseApi")
+//        create("testApi")
+//        create("testDebugApi")
+//        create("testReleaseApi")
+//    }
 }
