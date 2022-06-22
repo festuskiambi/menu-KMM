@@ -1,6 +1,5 @@
 package com.example.menu.android.presentation.navigation
 
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -24,11 +23,11 @@ fun Navigation() {
 
         composable(
             route = Screen.RecipeDetails.route + "/{recipeId}",
-            arguments = listOf(navArgument("recipeId"){
+            arguments = listOf(navArgument("recipeId") {
                 type = NavType.IntType
             })
 
-        ) {navBackStackEntry ->
+        ) { navBackStackEntry ->
             RecipeDetailsScreen(recipeId = navBackStackEntry.arguments?.getInt("recipeId"))
         }
     }
