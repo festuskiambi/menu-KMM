@@ -1,5 +1,3 @@
-import Application.minSdk
-
 plugins {
     kotlin(KotlinPlugins.multiplatform)
     kotlin(KotlinPlugins.cocoapods)
@@ -30,6 +28,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(Kotlinx.datetime)
+                implementation(Ktor.core)
+                implementation(Ktor.clientSerialization)
             }
         }
         val commonTest by getting {
@@ -37,7 +37,12 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Ktor.android)
+            }
+        }
+
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -47,6 +52,9 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation(Ktor.ios)
+            }
         }
         val iosX64Test by getting
         val iosArm64Test by getting
@@ -65,7 +73,7 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = Application.minSdk
-        targetSdk =Application.targetSdk
+        targetSdk = Application.targetSdk
     }
 
     compileOptions {
